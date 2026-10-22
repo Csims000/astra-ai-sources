@@ -1,0 +1,539 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080d1c">
+  <title>Astra AI Sources</title>
+  <style>
+    :root {
+      --bg: #080d1c;
+      --panel: #111a30;
+      --panel-hover: #182542;
+      --line: #263654;
+      --text: #f2f6ff;
+      --muted: #a6b4cf;
+      --accent: #8b7cff;
+      --cyan: #56d9ff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse at 10% 0%, #25245b 0%, transparent 38%),
+        radial-gradient(ellipse at 95% 25%, #10364b 0%, transparent 35%),
+        var(--bg);
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+    }
+
+    button, input { font: inherit; }
+
+    a { color: inherit; }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 20px clamp(18px, 5vw, 70px);
+      border-bottom: 1px solid #ffffff12;
+      background: #080d1ccc;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -.5px;
+    }
+
+    .brand-icon {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      color: white;
+      font-size: 24px;
+      background: linear-gradient(135deg, var(--accent), var(--cyan));
+      box-shadow: 0 0 25px #8b7cff55;
+    }
+
+    .top-label {
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    main {
+      width: min(1180px, 92%);
+      margin: 0 auto;
+      padding: 58px 0 70px;
+    }
+
+    .hero { text-align: center; }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 8px 13px;
+      border: 1px solid #8b7cff55;
+      border-radius: 99px;
+      color: #c9c1ff;
+      background: #8b7cff12;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    h1 {
+      margin: 22px 0 12px;
+      font-size: clamp(38px, 7vw, 70px);
+      line-height: 1.04;
+      letter-spacing: -3px;
+    }
+
+    h1 span {
+      color: transparent;
+      background: linear-gradient(90deg, #a99cff, #56d9ff);
+      background-clip: text;
+      -webkit-background-clip: text;
+    }
+
+    .intro {
+      max-width: 610px;
+      margin: 0 auto;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .search-wrap {
+      max-width: 650px;
+      margin: 30px auto 22px;
+      position: relative;
+    }
+
+    .search-wrap input {
+      width: 100%;
+      padding: 17px 20px 17px 50px;
+      color: var(--text);
+      background: #111a30e8;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    .search-wrap input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px #8b7cff20;
+    }
+
+    .search-icon {
+      position: absolute;
+      top: 50%;
+      left: 18px;
+      transform: translateY(-50%);
+      font-size: 20px;
+      color: var(--muted);
+    }
+
+    .categories {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 9px;
+      margin: 24px 0 46px;
+    }
+
+    .category {
+      padding: 10px 15px;
+      color: var(--muted);
+      background: #111a30;
+      border: 1px solid var(--line);
+      border-radius: 99px;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .category:hover, .category.active {
+      color: white;
+      border-color: var(--accent);
+      background: #8b7cff25;
+    }
+
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 24px;
+      letter-spacing: -.6px;
+    }
+
+    #resultCount {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 17px;
+    }
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      min-height: 235px;
+      padding: 21px;
+      border: 1px solid var(--line);
+      border-radius: 19px;
+      background: linear-gradient(145deg, #141e35, #0e1628);
+      transition: transform .2s, border-color .2s, background .2s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: #8276ee;
+      background: var(--panel-hover);
+    }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .site-icon {
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 15px;
+      background: #ffffff0b;
+      border: 1px solid #ffffff12;
+      font-size: 25px;
+    }
+
+    .tag {
+      padding: 6px 9px;
+      border-radius: 99px;
+      color: #c8c1ff;
+      background: #8b7cff18;
+      font-size: 11px;
+    }
+
+    .card h3 {
+      margin: 17px 0 7px;
+      font-size: 18px;
+    }
+
+    .card p {
+      flex: 1;
+      margin: 0 0 20px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .visit {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 11px 13px;
+      color: white;
+      text-decoration: none;
+      text-align: center;
+      border: 1px solid #ffffff19;
+      border-radius: 11px;
+      background: #ffffff08;
+      font-size: 13px;
+      font-weight: 700;
+      transition: .2s;
+    }
+
+    .visit:hover {
+      background: #8b7cff30;
+      border-color: var(--accent);
+    }
+
+    .empty {
+      display: none;
+      padding: 45px 15px;
+      color: var(--muted);
+      text-align: center;
+      border: 1px dashed var(--line);
+      border-radius: 18px;
+    }
+
+    .note {
+      margin-top: 40px;
+      padding: 16px 18px;
+      color: var(--muted);
+      border: 1px solid #ffffff12;
+      border-radius: 14px;
+      background: #ffffff05;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    footer {
+      padding: 24px;
+      color: #8291af;
+      text-align: center;
+      border-top: 1px solid #ffffff12;
+      font-size: 12px;
+    }
+
+    @media (max-width: 850px) {
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 540px) {
+      .grid { grid-template-columns: 1fr; }
+      .top-label { display: none; }
+      main { padding-top: 40px; }
+      h1 { letter-spacing: -1.5px; }
+      .card { min-height: 210px; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-icon">✦</div>
+      <div>Astra <span style="color:#9d91ff">AI Sources</span></div>
+    </div>
+    <div class="top-label">Your AI discovery hub</div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="eyebrow">✦ YOUR AI DIRECTORY</div>
+      <h1>Discover the <span>AI universe.</span></h1>
+      <p class="intro">
+        Explore AI tools for chatting, creating images and videos,
+        coding, research, and more — all in one place.
+      </p>
+
+      <div class="search-wrap">
+        <span class="search-icon">⌕</span>
+        <input
+          id="search"
+          type="search"
+          placeholder="Search AI websites or tools..."
+          aria-label="Search AI websites"
+        >
+      </div>
+    </section>
+
+    <nav class="categories" aria-label="AI categories">
+      <button class="category active" data-category="all">✦ All Tools</button>
+      <button class="category" data-category="chat">💬 Chatbots</button>
+      <button class="category" data-category="image">🎨 Images</button>
+      <button class="category" data-category="video">🎬 Video</button>
+      <button class="category" data-category="coding">💻 Coding</button>
+      <button class="category" data-category="audio">🎧 Audio</button>
+      <button class="category" data-category="research">🔎 Research</button>
+    </nav>
+
+    <section>
+      <div class="section-heading">
+        <h2>Explore AI tools</h2>
+        <span id="resultCount">12 tools</span>
+      </div>
+
+      <div class="grid" id="toolGrid">
+
+        <article class="card" data-category="chat"
+          data-search="chatgpt openai chatbot writing questions">
+          <div class="card-top"><div class="site-icon">✳️</div><span class="tag">Chatbot</span></div>
+          <h3>ChatGPT</h3>
+          <p>Ask questions, brainstorm, learn, write, and get help with coding.</p>
+          <a class="visit" href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer">Visit website ↗</a>
+        </article>
+
+        <article class="card" data-category="chat"
+          data-search="google gemini chatbot assistant">
+          <div class="card-top"><div class="site-icon">♊</div><span class="tag">Chatbot</span></div>
+          <h3>Google Gemini</h3>
+          <p>Explore Google's AI assistant for ideas, questions, and creative tasks.</p>
+          <a class="visit" href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer">Visit website ↗</a>
+        </article>
+
+        <article class="card" data-category="chat"
+          data-search="claude anthropic writing reasoning chatbot">
+          <div class="card-top"><div class="site-icon">✴️</div><span class="tag">Chatbot</span></div>
+          <h3>Claude</h3>
+          <p>Work through questions, writing, documents, and problem-solving.</p>
+          <a class="visit" href="https://claude.ai/" target="_blank" rel="noopener noreferrer">Visit website ↗</a>
+        </article>
+
+        <article class="card" data-category="chat"
+          data-search="microsoft copilot assistant">
+          <div class="card-top"><div class="site-icon">🌐</div><span class="tag">Chatbot</span></div>
+          <h3>Microsoft Copilot</h3>
+          <p>Get help with questions, ideas, and everyday tasks using AI.</p>
+          <a class="visit" href="https://copilot.microsoft.com/" target="_blank" rel="noopener noreferrer">Visit website ↗</a>
+        </article>
+
+        <article class="card" data-category="research"
+          data-search="perplexity research search answers sources">
+          <div class="card-top"><div class="site-icon">🔎</div><span class="tag">Research</span></div>
+          <h3>Perplexity</h3>
+          <p>Research topics and explore answers with links to supporting sources.</p>
+          <a class="visit" href="https://www.perplexity.ai/" target="_blank" rel="noopener noreferrer">Visit website ↗</a>
+        </article>
+
+        <article class="card" data-category="image"
+          data-search="adobe firefly image generator design art">
+          <div class="card-top"><div class="site-icon">🎨</div><span class="tag">Images</span></div>
+          <h3>Adobe Firefly</h3>
+          <p>Explore AI-powered image creation and creative design tools.</p>
+          <a class="visit" href="https://firefly.adobe.com/" target="_blank" rel="noopener noreferrer">Visit website ↗</a>
+        </article>
+
+        <article class="card" data-category="image"
+          data-search="ideogram image generator text images design">
+          <div class="card-top"><div class="site-icon">🖼️</div><span class="tag">Images</span></div>
+          <h3>Ideogram</h3>
+          <p>Create visual concepts, designs, and AI-generated images.</p>
+          <a class="visit" href="https://ideogram.ai/" target="_blank" rel="noopener noreferrer">Visit website ↗</a>
+        </article>
+
+        <article class="card" data-category="video"
+          data-search="runway video generator video editing">
+          <div class="card-top"><div class="site-icon">🎬</div><span class="tag">Video</span></div>
+          <h3>Runway</h3>
+          <p>Explore AI tools for generating and editing creative videos.</p>
+          <a class="visit" href="https://runwayml.com/" target="_blank" rel="noopener noreferrer">Visit website ↗</a>
+        </article>
+
+        <article class="card" data-category="video"
+          data-search="pika AI video generation">
+          <div class="card-top"><div class="site-icon">📽️</div><span class="tag">Video</span></div>
+          <h3>Pika</h3>
+          <p>Discover AI-assisted video creation and visual effects.</p>
+          <a class="visit" href="https://pika.art/" target="_blank" rel="noopener noreferrer">Visit website ↗</a>
+        </article>
+
+        <article class="card" data-category="coding"
+          data-search="github copilot coding programming developer">
+          <div class="card-top"><div class="site-icon">💻</div><span class="tag">Coding</span></div>
+          <h3>GitHub Copilot</h3>
+          <p>Explore an AI coding assistant for programming and development.</p>
+          <a class="visit" href="https://github.com/features/copilot" target="_blank" rel="noopener noreferrer">Visit website ↗</a>
+        </article>
+
+        <article class="card" data-category="audio"
+          data-search="elevenlabs voice audio speech sound">
+          <div class="card-top"><div class="site-icon">🎙️</div><span class="tag">Audio</span></div>
+          <h3>ElevenLabs</h3>
+          <p>Explore AI voice, speech, and audio creation tools.</p>
+          <a class="visit" href="https://elevenlabs.io/" target="_blank" rel="noopener noreferrer">Visit website ↗</a>
+        </article>
+
+        <article class="card" data-category="research"
+          data-search="hugging face AI models community tools">
+          <div class="card-top"><div class="site-icon">🤗</div><span class="tag">Research</span></div>
+          <h3>Hugging Face</h3>
+          <p>Discover AI models, community projects, and interactive demos.</p>
+          <a class="visit" href="https://huggingface.co/" target="_blank" rel="noopener noreferrer">Visit website ↗</a>
+        </article>
+
+      </div>
+
+      <div class="empty" id="emptyState">
+        <h3>No matching tools found</h3>
+        <p>Try a different search or choose another category.</p>
+      </div>
+    </section>
+
+    <div class="note">
+      <strong>About this directory:</strong> Astra AI Sources links to independently
+      operated websites. Their features, pricing, sign-in requirements, and age
+      restrictions may vary. Some tools may require an account or paid plan.
+    </div>
+  </main>
+
+  <footer>
+    Astra AI Sources · Explore. Discover. Create.
+  </footer>
+
+  <script>
+    const searchInput = document.getElementById("search");
+    const cards = [...document.querySelectorAll(".card")];
+    const categoryButtons = [...document.querySelectorAll(".category")];
+    const resultCount = document.getElementById("resultCount");
+    const emptyState = document.getElementById("emptyState");
+    let activeCategory = "all";
+
+    function filterTools() {
+      const query = searchInput.value.trim().toLowerCase();
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const searchableText =
+          (card.dataset.search + " " + card.innerText).toLowerCase();
+
+        const matchesSearch = searchableText.includes(query);
+        const matchesCategory =
+          activeCategory === "all" ||
+          card.dataset.category === activeCategory;
+
+        const visible = matchesSearch && matchesCategory;
+        card.hidden = !visible;
+
+        if (visible) visibleCount++;
+      });
+
+      resultCount.textContent =
+        visibleCount + (visibleCount === 1 ? " tool" : " tools");
+
+      emptyState.style.display = visibleCount === 0 ? "block" : "none";
+    }
+
+    searchInput.addEventListener("input", filterTools);
+
+    categoryButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        activeCategory = button.dataset.category;
+
+        categoryButtons.forEach(item => {
+          const selected = item === button;
+          item.classList.toggle("active", selected);
+          item.setAttribute("aria-pressed", String(selected));
+        });
+
+        filterTools();
+      });
+    });
+
+    categoryButtons.forEach(button => {
+      button.setAttribute(
+        "aria-pressed",
+        String(button.dataset.category === "all")
+      );
+    });
+
+    filterTools();
+  </script>
+</body>
+</html>
