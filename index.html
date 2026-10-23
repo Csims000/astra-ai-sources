@@ -51,8 +51,8 @@ h2{margin:0;font-size:22px;letter-spacing:-.5px}
 .card{display:flex;flex-direction:column;padding:20px;border:1px solid var(--line);border-radius:18px;background:#0a0e1acc;transition:transform .2s,border-color .2s,background .2s}
 .card:hover{transform:translateY(-3px);border-color:var(--accent);background:var(--hover)}
 .card-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.site-icon{display:grid;place-items:center;width:46px;height:46px;border-radius:14px;background:#fff;border:1px solid var(--line);font-size:24px}
-.site-icon img{width:28px;height:28px;object-fit:contain;border-radius:6px}
+.site-icon{display:grid;place-items:center;width:46px;height:46px;border-radius:14px;background:#fff;border:1px solid var(--line);font-size:24px;color:#000}
+.site-icon img{width:30px;height:30px;object-fit:contain;border-radius:6px}
 .tag{padding:5px 10px;border-radius:99px;color:#c8c1ff;background:var(--accent-soft);font-size:11px;font-weight:600}
 .card h3{margin:14px 0 6px;font-size:18px}
 .card p{flex:1;margin:0 0 16px;color:var(--muted);font-size:13px;line-height:1.6}
@@ -119,29 +119,100 @@ footer{padding:22px;color:#8291af;text-align:center;border-top:1px solid var(--l
 
 <script>
 const TOOLS = [
+ // Chatbots
  ["ChatGPT","chat","✳️","Ask questions, brainstorm, learn, write, and get help with coding.","https://chatgpt.com/","openai writing assistant"],
  ["Google Gemini","chat","♊","Google’s AI assistant for ideas, questions, and creative tasks.","https://gemini.google.com/","google assistant"],
  ["Claude","chat","✴️","Work through questions, writing, documents, and problem-solving.","https://claude.ai/","anthropic reasoning writing"],
  ["Microsoft Copilot","chat","🌐","Get help with questions, ideas, and everyday tasks.","https://copilot.microsoft.com/","microsoft assistant"],
  ["Grok","chat","⚡","A conversational assistant from xAI with real-time web context.","https://grok.com/","xai assistant"],
+ ["DeepSeek","chat","🐋","Chat with open-weight reasoning models for writing, math, and coding.","https://chat.deepseek.com/","reasoning open source math"],
+ ["Mistral Le Chat","chat","🌬️","A fast European AI assistant from Mistral for everyday tasks.","https://chat.mistral.ai/","mistral europe assistant"],
+ ["Meta AI","chat","♾️","Meta’s assistant for questions, ideas, and image creation.","https://www.meta.ai/","meta llama assistant"],
+ ["Poe","chat","💠","Talk to many different AI models and bots in one place.","https://poe.com/","quora models bots"],
+ ["Character.AI","chat","🎭","Chat with AI characters for roleplay, stories, and conversation.","https://character.ai/","characters roleplay fun stories"],
+ ["Pi","chat","🥧","A friendly, conversational AI for supportive back-and-forth chats.","https://pi.ai/","inflection personal assistant"],
+ ["Qwen Chat","chat","🐼","Alibaba’s AI assistant for chat, coding, and image tasks.","https://chat.qwen.ai/","alibaba assistant"],
+
+ // Research
  ["Perplexity","research","🔎","Research topics and get answers with links to supporting sources.","https://www.perplexity.ai/","search answers sources"],
  ["NotebookLM","research","📓","Upload your documents and ask questions or generate summaries from them.","https://notebooklm.google.com/","notes summary documents study"],
  ["Hugging Face","research","🤗","Discover AI models, datasets, community projects, and demos.","https://huggingface.co/","models community open source"],
+ ["You.com","research","🧭","An AI search engine with chat answers and research modes.","https://you.com/","search answers"],
+ ["Elicit","research","📚","Find and summarize academic papers to speed up literature reviews.","https://elicit.com/","papers academic literature science"],
+ ["Consensus","research","🔬","Search scientific research and see what the evidence says.","https://consensus.app/","papers academic evidence science"],
+
+ // Images
  ["Adobe Firefly","image","🎨","AI-powered image creation and creative design tools.","https://firefly.adobe.com/","adobe art design generator"],
  ["Ideogram","image","🖼️","Create visual concepts, designs, and images, including text in images.","https://ideogram.ai/","generator text design"],
  ["Midjourney","image","🌌","Generate artistic, high-detail images from text prompts.","https://www.midjourney.com/","art generator"],
  ["Canva AI","image","🧩","Design graphics, presentations, and social posts with AI assistance.","https://www.canva.com/","design graphics slides"],
+ ["Leonardo.Ai","image","🦁","Generate game art, concept art, and polished images.","https://leonardo.ai/","art generator concept game"],
+ ["Stability AI","image","🌀","Explore the makers of Stable Diffusion and their image tools.","https://stability.ai/","stable diffusion generator open source"],
+ ["Krea","image","🎛️","Generate and enhance images in real time with creative controls.","https://www.krea.ai/","generator upscale enhance"],
+ ["Recraft","image","📐","Create vector art, icons, and brand-ready illustrations.","https://www.recraft.ai/","vector design icons illustration"],
+ ["Clipdrop","image","✂️","Remove backgrounds, upscale photos, and relight images.","https://clipdrop.co/","background remove upscale photo editing"],
+ ["Photoroom","image","📸","Edit product photos and remove backgrounds with AI.","https://www.photoroom.com/","photo editing background product"],
+ ["Gamma","image","📊","Turn ideas into slide decks, documents, and web pages.","https://gamma.app/","presentation slides design"],
+
+ // Video
  ["Runway","video","🎬","Generate and edit creative videos with AI.","https://runwayml.com/","video editing generator"],
  ["Pika","video","📽️","AI-assisted video creation and visual effects.","https://pika.art/","video effects generator"],
  ["Luma Dream Machine","video","✨","Turn text and images into short cinematic video clips.","https://lumalabs.ai/","video generator"],
+ ["Kling AI","video","🎞️","Create realistic AI video clips from text or images.","https://klingai.com/","video generator"],
+ ["Sora","video","🌊","OpenAI’s tool for generating video from text prompts.","https://sora.com/","openai video generator"],
+ ["HeyGen","video","🧑‍💼","Make talking-avatar videos and translate them into other languages.","https://www.heygen.com/","avatar presenter translate"],
+ ["Synthesia","video","🎤","Create training and business videos with AI presenters.","https://www.synthesia.io/","avatar presenter training"],
+ ["Descript","video","📝","Edit video and podcasts by editing the transcript like a document.","https://www.descript.com/","editing transcript podcast"],
+ ["OpusClip","video","🔥","Turn long videos into short clips for social media.","https://www.opus.pro/","shorts clips social editing"],
+
+ // Coding
  ["GitHub Copilot","coding","💻","An AI coding assistant for programming and development.","https://github.com/features/copilot","programming developer code"],
  ["Cursor","coding","⌨️","A code editor built around AI pair programming.","https://cursor.com/","editor ide programming developer"],
  ["Replit","coding","🛠️","Build, run, and deploy apps in the browser with an AI agent.","https://replit.com/","apps deploy programming developer"],
+ ["Windsurf","coding","🏄","An AI-powered code editor with an agent that works across your project.","https://windsurf.com/","editor ide codeium developer"],
+ ["Bolt","coding","⚙️","Describe an app, then build, preview, and deploy it from the browser.","https://bolt.new/","apps builder deploy developer"],
+ ["v0","coding","🧱","Generate web interfaces and React components from a prompt.","https://v0.dev/","vercel ui react frontend developer"],
+ ["Lovable","coding","💜","Build full web apps by describing them in plain language.","https://lovable.dev/","apps builder no code"],
+ ["Tabnine","coding","⌁","AI code completion with a focus on privacy and team settings.","https://www.tabnine.com/","autocomplete developer"],
+ ["Phind","coding","🔍","A search engine and assistant built for developers.","https://www.phind.com/","search developer programming"],
+ ["Google AI Studio","coding","🧪","Prototype with Gemini models and test prompts in the browser.","https://aistudio.google.com/","gemini prompts api developer"],
+
+ // Audio
  ["ElevenLabs","audio","🎙️","AI voice, speech, and audio creation tools.","https://elevenlabs.io/","voice speech text to speech sound"],
- ["Suno","audio","🎵","Create songs with vocals and instruments from a text description.","https://suno.com/","music songs generator"]
+ ["Suno","audio","🎵","Create songs with vocals and instruments from a text description.","https://suno.com/","music songs generator"],
+ ["Udio","audio","🎶","Generate music in many styles from text prompts.","https://www.udio.com/","music songs generator"],
+ ["Murf","audio","🗣️","Create studio-quality voiceovers from text.","https://murf.ai/","voiceover text to speech"],
+ ["Otter.ai","audio","🦦","Record meetings and get live transcripts and summaries.","https://otter.ai/","meeting transcription notes"],
+ ["Adobe Podcast","audio","🎧","Clean up voice recordings and improve speech quality.","https://podcast.adobe.com/","enhance speech podcast recording"],
+ ["Speechify","audio","📖","Listen to documents, articles, and books read aloud.","https://speechify.com/","text to speech reader"],
+ ["Moises","audio","🎸","Separate vocals and instruments from songs and practice along.","https://moises.ai/","stems music practice"]
 ];
 const CATS = [["all","✦","All"],["fav","★","Saved"],["chat","💬","Chatbots"],["image","🎨","Images"],["video","🎬","Video"],["coding","💻","Coding"],["audio","🎧","Audio"],["research","🔎","Research"]];
 const LABEL = {chat:"Chatbot",image:"Images",video:"Video",coding:"Coding",audio:"Audio",research:"Research"};
+
+// Optional logo overrides. Use a domain ("openai.com") or a direct image link
+// ("https://example.com/logo.png"). Tools not listed use their own website's icon.
+const LOGO = {
+  // "GitHub Copilot": "https://example.com/copilot-logo.png",
+  // "Sora": "openai.com"
+};
+
+// Logo sources, tried in order until one loads: override, Google, DuckDuckGo,
+// the site's own touch icon and favicon, then the parent domain, then the emoji.
+function logoSources(t){
+  const o = LOGO[t[0]], host = new URL(t[4]).hostname, list = [];
+  if (o && /^https?:\/\//.test(o)) list.push(o);
+  const hosts = [(o && !/^https?:\/\//.test(o)) ? o : host];
+  const parts = hosts[0].split(".");
+  if (parts.length > 2) hosts.push(parts.slice(1).join("."));
+  hosts.forEach(h => {
+    list.push("https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://" + h + "&size=128");
+    list.push("https://icons.duckduckgo.com/ip3/" + h + ".ico");
+  });
+  list.push("https://" + hosts[0] + "/apple-touch-icon.png");
+  list.push("https://" + hosts[0] + "/favicon.ico");
+  return list;
+}
 
 let favs = new Set(), cat = "all", sort = "az";
 const $ = id => document.getElementById(id);
@@ -181,7 +252,7 @@ function render(){
   });
   $("grid").innerHTML = list.map(t => {
     const on = favs.has(t[0]);
-    return '<article class="card"><div class="card-top"><div class="site-icon" aria-hidden="true"><img src="https://www.google.com/s2/favicons?domain=' + new URL(t[4]).hostname + '&sz=128" alt="" loading="lazy" width="28" height="28" data-emoji="' + t[2] + '"></div><span class="tag">' + LABEL[t[1]] + '</span></div>' +
+    return '<article class="card"><div class="card-top"><div class="site-icon" aria-hidden="true"><img src="' + logoSources(t)[0] + '" alt="" loading="lazy" width="30" height="30" referrerpolicy="no-referrer" data-tool="' + esc(t[0]) + '" data-i="0" data-emoji="' + t[2] + '"></div><span class="tag">' + LABEL[t[1]] + '</span></div>' +
       '<h3>' + hl(t[0], q) + '</h3><p>' + hl(t[3], q) + '</p>' +
       '<div class="actions"><a class="visit" href="' + t[4] + '" target="_blank" rel="noopener noreferrer">Visit website ↗</a>' +
       '<button class="fav" data-name="' + esc(t[0]) + '" aria-pressed="' + on + '" aria-label="' + (on ? "Remove " : "Save ") + esc(t[0]) + (on ? " from saved" : " to saved") + '" title="' + (on ? "Remove from saved" : "Save for later") + '">' + (on ? "★" : "☆") + '</button></div></article>';
@@ -226,12 +297,18 @@ document.addEventListener("keydown", e => {
   if (e.key === "Escape" && document.activeElement === $("search")) { $("search").value = ""; render(); $("search").blur(); }
 });
 
-// Fall back to the emoji if a logo fails to load
+// If a logo fails, try the next source; after the last one, show the emoji
 document.addEventListener("error", e => {
-  if (e.target.tagName === "IMG" && e.target.dataset.emoji) {
+  const im = e.target;
+  if (im.tagName !== "IMG" || !im.dataset.tool) return;
+  const t = TOOLS.find(x => x[0] === im.dataset.tool);
+  const list = t ? logoSources(t) : [];
+  const next = +im.dataset.i + 1;
+  if (next < list.length) { im.dataset.i = next; im.src = list[next]; }
+  else {
     const s = document.createElement("span");
-    s.textContent = e.target.dataset.emoji;
-    e.target.replaceWith(s);
+    s.textContent = im.dataset.emoji;
+    im.replaceWith(s);
   }
 }, true);
 
